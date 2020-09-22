@@ -612,10 +612,17 @@ export default class Creature {
    * **Vigueur**
    */
   get fortitude():number {
+    // Recherche de bonus à la défence de classe
+    let classBonus = 0;
+    const fortitudeBonus = this._class.defenceBonus.find(defenceBonus => defenceBonus.defenceName === 'FORT');
+    if (fortitudeBonus) {
+      classBonus = fortitudeBonus.bonus;
+    }
+
     if (this.strengthModifier > this.constitutionModifier) {
-      return 10 + Math.floor(this.level / 2) + this.strengthModifier;
+      return 10 + Math.floor(this.level / 2) + this.strengthModifier + classBonus;
     } else {
-      return 10 + Math.floor(this.level / 2) + this.constitutionModifier;
+      return 10 + Math.floor(this.level / 2) + this.constitutionModifier + classBonus;
     }
   }
 
@@ -623,10 +630,17 @@ export default class Creature {
    * **Réflexe**
    */
   get reflex():number {
+    // Recherche de bonus à la défence de classe
+    let classBonus = 0;
+    const reflexBonus = this._class.defenceBonus.find(defenceBonus => defenceBonus.defenceName === 'REF');
+    if (reflexBonus) {
+      classBonus = reflexBonus.bonus;
+    }
+
     if (this.dexterityModifier > this.inteligenceModifier) {
-      return 10 + Math.floor(this.level / 2) + this.dexterityModifier;
+      return 10 + Math.floor(this.level / 2) + this.dexterityModifier + classBonus;
     } else {
-      return 10 + Math.floor(this.level / 2) + this.inteligenceModifier;
+      return 10 + Math.floor(this.level / 2) + this.inteligenceModifier + classBonus;
     }
   }
 
@@ -634,10 +648,17 @@ export default class Creature {
    * **Volonté**
    */
   get will():number {
+    // Recherche de bonus à la défence de classe
+    let classBonus = 0;
+    const willBonus = this._class.defenceBonus.find(defenceBonus => defenceBonus.defenceName === 'WILL');
+    if (willBonus) {
+      classBonus = willBonus.bonus;
+    }
+
     if (this.wisdomModifier > this.charismaModifier) {
-      return 10 + Math.floor(this.level / 2) + this.wisdomModifier;
+      return 10 + Math.floor(this.level / 2) + this.wisdomModifier + classBonus;
     } else {
-      return 10 + Math.floor(this.level / 2) + this.charismaModifier;
+      return 10 + Math.floor(this.level / 2) + this.charismaModifier + classBonus;
     }
   }
 
@@ -659,7 +680,7 @@ export default class Creature {
       ability = this.wisdom;
     }
 
-    return this._class.healthPoints.base + ability + (this._class.healthGainPerLevel * this.level);
+    return this._class.healthPoints.base + ability + (this._class.healthGainPerLevel * (this.level - 1));
   }
 
   /**
