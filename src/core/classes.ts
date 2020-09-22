@@ -12,11 +12,11 @@ export interface Class {
      * Bonus
      */
     bonus: number,
-  },
+  }[],
   /**
    * **Points de vie**
    */
-  healthPoint: {
+  healthPoints: {
     /**
      * Points de vie de base
      */
@@ -55,11 +55,11 @@ export interface Class {
 
 const guerrier: Class = {
   name: 'Guerrier',
-  defenceBonus: {
+  defenceBonus: [{
     defenceName: 'FORT',
     bonus: 2,
-  },
-  healthPoint: {
+  }],
+  healthPoints: {
     base: 15,
     abilityName: 'CON'
   },
@@ -74,11 +74,11 @@ const guerrier: Class = {
 
 const magicien: Class = {
   name: 'Magicien',
-  defenceBonus: {
+  defenceBonus: [{
     defenceName: 'WILL',
     bonus: 2,
-  },
-  healthPoint: {
+  }],
+  healthPoints: {
     base: 10,
     abilityName: 'CON',
   },
@@ -91,4 +91,29 @@ const magicien: Class = {
   authorizedArmorType: ['fabric'],
 };
 
-export default { guerrier, magicien };
+const shaman: Class = {
+  name: 'Shaman',
+  defenceBonus: [
+    {
+      defenceName: 'WILL',
+      bonus: 1,
+    },
+    {
+      defenceName: 'FORT',
+      bonus: 1,
+    },
+  ],
+  healthPoints: {
+    base: 12,
+    abilityName: 'CON',
+  },
+  healthGainPerLevel: 5,
+  surgePerDay: {
+    base: 7,
+    abilityModifierName: 'CON',
+  },
+  authorizedWeaponType: ['wand', 'stick', 'orb'],
+  authorizedArmorType: ['fabric'],
+};
+
+export default { guerrier, magicien, shaman };
