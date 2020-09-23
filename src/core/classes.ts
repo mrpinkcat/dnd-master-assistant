@@ -46,7 +46,7 @@ export interface Class {
   /**
    * **Maniement des armes**
    */
-  authorizedWeaponType: Array<'simple melee weapon' | 'simple distance weapon' | 'war melee weapon' | 'war distance weapon' | 'wand' | 'stick' | 'orb'>,
+  authorizedWeaponType: Array<'simple melee weapon' | 'simple distance weapon' | 'war melee weapon' | 'war distance weapon' | 'wand' | 'stick' | 'orb' | 'spade'>,
   /**
    * **Port des armures**
    */
@@ -112,8 +112,8 @@ const shaman: Class = {
     base: 7,
     abilityModifierName: 'CON',
   },
-  authorizedWeaponType: ['wand', 'stick', 'orb'],
-  authorizedArmorType: ['fabric'],
+  authorizedWeaponType: ['simple melee weapon', 'spade'],
+  authorizedArmorType: ['fabric', 'leather'],
 };
 
 export default { guerrier, magicien, shaman };
