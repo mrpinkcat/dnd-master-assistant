@@ -1,4 +1,5 @@
 import { Class } from './classes'
+import { Race } from './races';
 
 interface CreatureCreationInfo {
   /**
@@ -50,9 +51,13 @@ interface CreatureCreationInfo {
    */
   alignment: "Bon" | "Loyal bon" | "Mauvais" | "Chaotique mauvais" | "Non aligné";
   /**
-   * **Race**
+   * **Classe**
    */
   class: Class;
+  /**
+   * **Race**
+   */
+  race: Race;
 }
 
 interface SkillsTrainingList {
@@ -92,33 +97,65 @@ export default class Creature {
   /**
    * Nom de la créature
    */
-  private _name: string;
+  name: string;
+  /**
+   * Nom de la classe
+   */
+  className: string;
+  /**
+   * Nom de la race
+   */
+  raceName: string;
   /**
    * Niveau
    */
   private _level: number;
   /**
    * Foce
+   * 
+   * **\/!\ ATTENTION \/!\**
+   * Ne pas anticiper le bonus de race dans cette variable,
+   * il sera caculer automatiquement
    */
   private _strength: number;
   /**
    * Constitution
+   * 
+   * **\/!\ ATTENTION \/!\**
+   * Ne pas anticiper le bonus de race dans cette variable,
+   * il sera caculer automatiquement
    */
   private _constitution: number;
   /**
    * Dexterité
+   * 
+   * **\/!\ ATTENTION \/!\**
+   * Ne pas anticiper le bonus de race dans cette variable,
+   * il sera caculer automatiquement
    */
   private _dexterity: number;
   /**
    * Inteligence
+   * 
+   * **\/!\ ATTENTION \/!\** 
+   * Ne pas anticiper le bonus de race dans cette variable,
+   * il sera caculer automatiquement
    */
   private _inteligence: number;
   /**
    * Sagesse
+   * 
+   * **\/!\ ATTENTION \/!\** 
+   * Ne pas anticiper le bonus de race dans cette variable,
+   * il sera caculer automatiquement
    */
   private _wisdom: number;
   /**
    * Charisme
+   * 
+   * **\/!\ ATTENTION \/!\** 
+   * Ne pas anticiper le bonus de race dans cette variable,
+   * il sera caculer automatiquement
    */
   private _charisma: number;
   /**
@@ -136,10 +173,11 @@ export default class Creature {
    */
   private _alignment: "Bon" | "Loyal bon" | "Mauvais" | "Chaotique mauvais" | "Non aligné";
   private _class: Class;
+  private _race: Race;
 
   constructor(creationInfo: CreatureCreationInfo) {
     this._id = 1;
-    this._name = creationInfo.name;
+    this.name = creationInfo.name;
     this._level = creationInfo.level;
     this._strength = creationInfo.strength;
     this._constitution = creationInfo.constitution;
@@ -151,18 +189,14 @@ export default class Creature {
     this._actionPoints = creationInfo.actionPoints;
     this._alignment = creationInfo.alignment
     this._class = creationInfo.class;
+    this.className = this._class.name;
+    this._race = creationInfo.race;
+    this.raceName = this._race.name;
   }
 
   // GETTERS
 
   // -- GLOBAL INFO
-
-  /**
-   * Nom
-   */
-  get name():string {
-    return this._name;
-  }
 
   /**
    * Niveau
@@ -181,7 +215,12 @@ export default class Creature {
    * Force
    */
   get strength(): number {
-    return this._strength;
+    let bonus = 0;
+    const strengthBonus = this._race.abilityBonuses.find(abilityBonus => abilityBonus.abilityName === 'STR');
+    if (strengthBonus) {
+      bonus = strengthBonus.bonus;
+    }
+    return this._strength + bonus;
   }
 
   /**
@@ -202,7 +241,12 @@ export default class Creature {
    * Constitution
    */
   get constitution():number {
-    return this._constitution;
+    let bonus = 0;
+    const constitutionBonus = this._race.abilityBonuses.find(abilityBonus => abilityBonus.abilityName === 'CON');
+    if (constitutionBonus) {
+      bonus = constitutionBonus.bonus;
+    }
+    return this._constitution + bonus;
   }
 
   /**
@@ -223,7 +267,12 @@ export default class Creature {
    * Dexterité
    */
   get dexterity():number {
-    return this._dexterity;
+    let bonus = 0;
+    const dexterityBonus = this._race.abilityBonuses.find(abilityBonus => abilityBonus.abilityName === 'DEX');
+    if (dexterityBonus) {
+      bonus = dexterityBonus.bonus;
+    }
+    return this._dexterity + bonus;
   }
 
   /**
@@ -244,7 +293,12 @@ export default class Creature {
    * Inteligence
    */
   get inteligence():number {
-    return this._inteligence;
+    let bonus = 0;
+    const inteligenceBonus = this._race.abilityBonuses.find(abilityBonus => abilityBonus.abilityName === 'INT');
+    if (inteligenceBonus) {
+      bonus = inteligenceBonus.bonus;
+    }
+    return this._inteligence + bonus;
   }
 
   /**
@@ -265,7 +319,12 @@ export default class Creature {
    * Sagesse
    */
   get wisdom():number {
-    return this._wisdom;
+    let bonus = 0;
+    const wisdomBonus = this._race.abilityBonuses.find(abilityBonus => abilityBonus.abilityName === 'WIS');
+    if (wisdomBonus) {
+      bonus = wisdomBonus.bonus;
+    }
+    return this._wisdom + bonus;
   }
 
   /**
@@ -286,7 +345,12 @@ export default class Creature {
    * Charisme
    */
   get charisma():number {
-    return this._charisma;
+    let bonus = 0;
+    const charismaBonus = this._race.abilityBonuses.find(abilityBonus => abilityBonus.abilityName === 'CHA');
+    if (charismaBonus) {
+      bonus = charismaBonus.bonus;
+    }
+    return this._charisma + bonus;
   }
 
   /**
@@ -306,11 +370,17 @@ export default class Creature {
   // --- SKILLS
 
   get acrobatics():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.acrobatics) {
-      return this.dexterityModifierAndHalfLevel + 5
-    } else {
-      return this.dexterityModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const acrobaticsBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'acrobatics');
+    if (acrobaticsBonus) {
+      bonus = bonus + acrobaticsBonus.bonus;
+    }
+    return this.dexterityModifierAndHalfLevel + bonus;
   }
 
   get acrobaticsTraining():boolean {
@@ -322,11 +392,17 @@ export default class Creature {
   }
 
   get arcana():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.arcana) {
-      return this.inteligenceModifierAndHalfLevel + 5
-    } else {
-      return this.inteligenceModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const arcanaBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'arcana');
+    if (arcanaBonus) {
+      bonus = bonus + arcanaBonus.bonus;
+    }
+    return this.inteligenceModifierAndHalfLevel + bonus;
   }
 
   get arcanaTraining():boolean {
@@ -338,11 +414,17 @@ export default class Creature {
   }
 
   get athletics():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.athletics) {
-      return this.strengthModifierAndHalfLevel + 5
-    } else {
-      return this.strengthModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const athleticsBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'athletics');
+    if (athleticsBonus) {
+      bonus = bonus + athleticsBonus.bonus;
+    }
+    return this.strengthModifierAndHalfLevel + bonus;
   }
 
   get athleticsTraining():boolean {
@@ -354,11 +436,17 @@ export default class Creature {
   }
 
   get bluff():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.bluff) {
-      return this.charismaModifierAndHalfLevel + 5
-    } else {
-      return this.charismaModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const bluffBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'bluff');
+    if (bluffBonus) {
+      bonus = bonus + bluffBonus.bonus;
+    }
+    return this.charismaModifierAndHalfLevel + bonus;
   }
 
   get bluffTraining():boolean {
@@ -370,11 +458,17 @@ export default class Creature {
   }
 
   get diplomacy():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.diplomacy) {
-      return this.charismaModifierAndHalfLevel + 5
-    } else {
-      return this.charismaModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const diplomacyBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'diplomacy');
+    if (diplomacyBonus) {
+      bonus = bonus + diplomacyBonus.bonus;
+    }
+    return this.charismaModifierAndHalfLevel + bonus;
   }
 
   get diplomacyTraining():boolean {
@@ -389,11 +483,17 @@ export default class Creature {
    * Exploration
    */
   get dungeoneering():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.dungeoneering) {
-      return this.wisdomModifierAndHalfLevel + 5
-    } else {
-      return this.wisdomModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const dungeoneeringBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'dungeoneering');
+    if (dungeoneeringBonus) {
+      bonus = bonus + dungeoneeringBonus.bonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus;
   }
 
   get dungeoneeringTraining():boolean {
@@ -405,11 +505,17 @@ export default class Creature {
   }
 
   get endurance():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.endurance) {
-      return this.constitutionModifierAndHalfLevel + 5
-    } else {
-      return this.constitutionModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const enduranceBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'endurance');
+    if (enduranceBonus) {
+      bonus = bonus + enduranceBonus.bonus;
+    }
+    return this.constitutionModifierAndHalfLevel + bonus;
   }
 
   get enduranceTraining():boolean {
@@ -421,11 +527,17 @@ export default class Creature {
   }
 
   get heal():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.heal) {
-      return this.wisdomModifierAndHalfLevel + 5
-    } else {
-      return this.wisdomModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const healBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'heal');
+    if (healBonus) {
+      bonus = bonus + healBonus.bonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus;
   }
 
   get healTraining():boolean {
@@ -437,11 +549,17 @@ export default class Creature {
   }
 
   get history():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.history) {
-      return this.inteligenceModifierAndHalfLevel + 5
-    } else {
-      return this.inteligenceModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const historyBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'history');
+    if (historyBonus) {
+      bonus = bonus + historyBonus.bonus;
+    }
+    return this.inteligenceModifierAndHalfLevel + bonus;
   }
 
   get historyTraining():boolean {
@@ -453,11 +571,17 @@ export default class Creature {
   }
 
   get insight():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.insight) {
-      return this.wisdomModifierAndHalfLevel + 5
-    } else {
-      return this.wisdomModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const insightBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'insight');
+    if (insightBonus) {
+      bonus = bonus + insightBonus.bonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus;
   }
 
   get insightTraining():boolean {
@@ -469,12 +593,17 @@ export default class Creature {
   }
 
   get intimidate():number {
-    console.log(`intimidate form ${this._skillsTrainingList.intimidate}`);
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.intimidate) {
-      return this.charismaModifierAndHalfLevel + 5
-    } else {
-      return this.charismaModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const intimidateBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'intimidate');
+    if (intimidateBonus) {
+      bonus = bonus + intimidateBonus.bonus;
+    }
+    return this.charismaModifierAndHalfLevel + bonus;
   }
 
   get intimidateTraining():boolean {
@@ -486,11 +615,17 @@ export default class Creature {
   }
 
   get nature():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.nature) {
-      return this.wisdomModifierAndHalfLevel + 5
-    } else {
-      return this.wisdomModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const natureBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'nature');
+    if (natureBonus) {
+      bonus = bonus + natureBonus.bonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus;
   }
 
   get natureTraining():boolean {
@@ -502,11 +637,17 @@ export default class Creature {
   }
 
   get perception():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.perception) {
-      return this.inteligenceModifierAndHalfLevel + 5
-    } else {
-      return this.inteligenceModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const perceptionBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'perception');
+    if (perceptionBonus) {
+      bonus = bonus + perceptionBonus.bonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus;
   }
 
   get perceptionTraining():boolean {
@@ -518,11 +659,17 @@ export default class Creature {
   }
 
   get religion():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.religion) {
-      return this.inteligenceModifierAndHalfLevel + 5;
-    } else {
-      return this.inteligenceModifierAndHalfLevel;
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const religionBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'religion');
+    if (religionBonus) {
+      bonus = bonus + religionBonus.bonus;
+    }
+    return this.inteligenceModifierAndHalfLevel + bonus;
   }
 
   get religionTraining():boolean {
@@ -534,11 +681,17 @@ export default class Creature {
   }
 
   get stealth():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.stealth) {
-      return this.dexterityModifierAndHalfLevel + 5;
-    } else {
-      return this.dexterityModifierAndHalfLevel;
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const stealthBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'stealth');
+    if (stealthBonus) {
+      bonus = bonus + stealthBonus.bonus;
+    }
+    return this.dexterityModifierAndHalfLevel + bonus;
   }
 
   get stealthTraining():boolean {
@@ -550,11 +703,17 @@ export default class Creature {
   }
 
   get streetwise():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.streetwise) {
-      return this.charismaModifierAndHalfLevel + 5
-    } else {
-      return this.charismaModifierAndHalfLevel
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const streetwiseBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'streetwise');
+    if (streetwiseBonus) {
+      bonus = bonus + streetwiseBonus.bonus;
+    }
+    return this.charismaModifierAndHalfLevel + bonus;
   }
 
   get streetwiseTraining():boolean {
@@ -566,11 +725,17 @@ export default class Creature {
   }
 
   get thievery():number {
+    let bonus = 0;
+    // Bonus de formation
     if (this._skillsTrainingList.thievery) {
-      return this.dexterityModifierAndHalfLevel + 5;
-    } else {
-      return this.dexterityModifierAndHalfLevel;
+      bonus = bonus + 5;
     }
+    // Bonus de race
+    const thieveryBonus = this._race.skillBonuses.find(skillBonus => skillBonus.skillName === 'thievery');
+    if (thieveryBonus) {
+      bonus = bonus + thieveryBonus.bonus;
+    }
+    return this.dexterityModifierAndHalfLevel + bonus;
   }
 
   get thieveryTraining():boolean {
@@ -713,10 +878,32 @@ export default class Creature {
     return this._class.surgePerDay.base + abilityModifier;
   }
 
-  // SETTERS ---------------------------
+  // MOVEMENT
 
-  set name(value: string) {
-    this._name = value;
+  /**
+   * **VD**
+   * 
+   * Vitesse de déplacement
+   */
+  get speed():number {
+    return this._race.movementSpeed;
   }
+
+  // SENSES
+
+  get passiveInsight() {
+    return 10 + this.insight;
+  }
+
+  get passivePerception() {
+    return 10 + this.perception;
+  }
+
+  // -- ACTION POINTS --
+  get actionPoints():number {
+    return this._actionPoints;
+  }
+
+  // SETTERS ---------------------------
 
 }

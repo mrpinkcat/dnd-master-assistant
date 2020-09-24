@@ -1,64 +1,94 @@
 import Creature from './Creature';
 import classes from './classes';
+import races from './races';
 
-const Opposax = new Creature({
-  name: 'Opposax',
+// const Player = new Creature({
+//   name: 'Opposax',
+//   level: 13,
+//   strength: 12,
+//   constitution: 20,
+//   dexterity: 13,
+//   inteligence: 15,
+//   wisdom: 20,
+//   charisma: 13,
+//   skillsTraining: {
+//     endurance: true,
+//     history: true,
+//     nature: true,
+//     perception: true
+//   }, 
+//   actionPoints: 1,
+//   alignment: "Non aligné",
+//   class: classes.shaman,
+//   race: races.deva,
+// });
+
+const Player = new Creature({
+  name: 'Khel',
   level: 13,
-  strength: 12,
-  constitution: 20,
+  strength: 20,
+  constitution: 19,
   dexterity: 13,
-  inteligence: 15,
-  wisdom: 20,
-  charisma: 13,
+  inteligence: 12,
+  wisdom: 14,
+  charisma: 18,
   skillsTraining: {
-    endurance: true,
-    history: true,
-    nature: true,
-    perception: true
+    diplomacy: true,
+    stealth: true,
+    intimidate: true,
+    religion: true,
   }, 
   actionPoints: 1,
   alignment: "Non aligné",
-  class: classes.shaman,
+  class: classes.paladin,
+  race: races.drakeide,
 });
 
-console.log(`Nom: ${Opposax.name}`);
-console.log(`Niveau: ${Opposax.level}`);
+console.log(`Nom: ${Player.name}`);
+console.log(`Niveau: ${Player.level}`);
 console.log(`---INITIATIVE---`);
-console.log(`Initiative: ${Opposax.initative}`);
-console.log(`DEX: ${Opposax.dexterityModifier}`);
-console.log(`1/2niv.: ${Opposax.halfLevel}`);
+console.log(`Initiative: ${Player.initative}`);
+console.log(`DEX: ${Player.dexterityModifier}`);
+console.log(`1/2niv.: ${Player.halfLevel}`);
 console.log(`---CARACTERISTIQUES---`);
-console.log(`FOR: ${Opposax.strength} (mod: ${Opposax.strengthModifier} | mod + 1/2niv.: ${Opposax.strengthModifierAndHalfLevel})`);
-console.log(`CON: ${Opposax.constitution} (mod: ${Opposax.constitutionModifier} | mod + 1/2niv.: ${Opposax.constitutionModifierAndHalfLevel})`);
-console.log(`DEX: ${Opposax.dexterity} (mod: ${Opposax.dexterityModifier} | mod + 1/2niv.: ${Opposax.dexterityModifierAndHalfLevel})`);
-console.log(`INT: ${Opposax.inteligence} (mod: ${Opposax.inteligenceModifier} | mod + 1/2niv.: ${Opposax.inteligenceModifierAndHalfLevel})`);
-console.log(`SAG: ${Opposax.wisdom} (mod: ${Opposax.wisdomModifier} | mod + 1/2niv.: ${Opposax.wisdomModifierAndHalfLevel})`);
-console.log(`CHA: ${Opposax.charisma} (mod: ${Opposax.charismaModifier} | mod + 1/2niv.: ${Opposax.charismaModifierAndHalfLevel})`);
+console.log(`FOR: ${Player.strength} (mod: ${Player.strengthModifier} | mod + 1/2niv.: ${Player.strengthModifierAndHalfLevel})`);
+console.log(`CON: ${Player.constitution} (mod: ${Player.constitutionModifier} | mod + 1/2niv.: ${Player.constitutionModifierAndHalfLevel})`);
+console.log(`DEX: ${Player.dexterity} (mod: ${Player.dexterityModifier} | mod + 1/2niv.: ${Player.dexterityModifierAndHalfLevel})`);
+console.log(`INT: ${Player.inteligence} (mod: ${Player.inteligenceModifier} | mod + 1/2niv.: ${Player.inteligenceModifierAndHalfLevel})`);
+console.log(`SAG: ${Player.wisdom} (mod: ${Player.wisdomModifier} | mod + 1/2niv.: ${Player.wisdomModifierAndHalfLevel})`);
+console.log(`CHA: ${Player.charisma} (mod: ${Player.charismaModifier} | mod + 1/2niv.: ${Player.charismaModifierAndHalfLevel})`);
 console.log(`---DÉFENCES---`);
-console.log(`CA: ${Opposax.armorClass} (10 + 1/2niv.: ${10 + Opposax.halfLevel} | carac: ${Opposax.dexterityModifier > Opposax.inteligenceModifier ? Opposax.dexterityModifier : Opposax.inteligenceModifier })`);
-console.log(`VIG: ${Opposax.fortitude} (10 + 1/2niv.: ${10 + Opposax.halfLevel} | carac: ${Opposax.strengthModifier > Opposax.constitutionModifier ? Opposax.strengthModifier : Opposax.constitutionModifier })`);
-console.log(`RÉF: ${Opposax.reflex} (10 + 1/2niv.: ${10 + Opposax.halfLevel} | carac: ${Opposax.dexterityModifier > Opposax.inteligenceModifier ? Opposax.dexterityModifier : Opposax.inteligenceModifier })`);
-console.log(`VOL: ${Opposax.will} (10 + 1/2niv.: ${10 + Opposax.halfLevel} | carac: ${Opposax.wisdomModifier > Opposax.charismaModifier ? Opposax.wisdomModifier : Opposax.charismaModifier })`);
+console.log(`CA: ${Player.armorClass} (10 + 1/2niv.: ${10 + Player.halfLevel} | carac: ${Player.dexterityModifier > Player.inteligenceModifier ? Player.dexterityModifier : Player.inteligenceModifier })`);
+console.log(`VIG: ${Player.fortitude} (10 + 1/2niv.: ${10 + Player.halfLevel} | carac: ${Player.strengthModifier > Player.constitutionModifier ? Player.strengthModifier : Player.constitutionModifier })`);
+console.log(`RÉF: ${Player.reflex} (10 + 1/2niv.: ${10 + Player.halfLevel} | carac: ${Player.dexterityModifier > Player.inteligenceModifier ? Player.dexterityModifier : Player.inteligenceModifier })`);
+console.log(`VOL: ${Player.will} (10 + 1/2niv.: ${10 + Player.halfLevel} | carac: ${Player.wisdomModifier > Player.charismaModifier ? Player.wisdomModifier : Player.charismaModifier })`);
 console.log(`---COMPÉTENCES---`);
-console.log(`Acrobaties: ${Opposax.acrobatics} (mod carac + 1/2niv.: ${Opposax.dexterityModifierAndHalfLevel} | form : ${Opposax.acrobaticsTraining ? '[x]' : '[ ]'})`);
-console.log(`Arcanes: ${Opposax.arcana} (mod carac + 1/2niv.: ${Opposax.inteligenceModifierAndHalfLevel} | form : ${Opposax.arcanaTraining ? '[x]' : '[ ]'})`);
-console.log(`Athlétisme: ${Opposax.athletics} (mod carac + 1/2niv.: ${Opposax.strengthModifierAndHalfLevel} | form : ${Opposax.athleticsTraining ? '[x]' : '[ ]'})`);
-console.log(`Bluff: ${Opposax.bluff} (mod carac + 1/2niv.: ${Opposax.charismaModifierAndHalfLevel} | form : ${Opposax.bluffTraining ? '[x]' : '[ ]'})`);
-console.log(`Connais. de la rue: ${Opposax.streetwise} (mod carac + 1/2niv.: ${Opposax.charismaModifierAndHalfLevel} | form : ${Opposax.streetwiseTraining ? '[x]' : '[ ]'})`);
-console.log(`Diplomatie: ${Opposax.diplomacy} (mod carac + 1/2niv.: ${Opposax.charismaModifierAndHalfLevel} | form : ${Opposax.diplomacyTraining ? '[x]' : '[ ]'})`);
-console.log(`Discretion: ${Opposax.stealth} (mod carac + 1/2niv.: ${Opposax.dexterityModifierAndHalfLevel} | form : ${Opposax.stealthTraining ? '[x]' : '[ ]'})`);
-console.log(`Endurance: ${Opposax.endurance} (mod carac + 1/2niv.: ${Opposax.constitutionModifierAndHalfLevel} | form : ${Opposax.enduranceTraining ? '[x]' : '[ ]'})`);
-console.log(`Exploration: ${Opposax.dungeoneering} (mod carac + 1/2niv.: ${Opposax.wisdomModifierAndHalfLevel} | form : ${Opposax.dungeoneeringTraining ? '[x]' : '[ ]'})`);
-console.log(`Histoire: ${Opposax.history} (mod carac + 1/2niv.: ${Opposax.inteligenceModifierAndHalfLevel} | form : ${Opposax.historyTraining ? '[x]' : '[ ]'})`);
-console.log(`Intuition: ${Opposax.insight} (mod carac + 1/2niv.: ${Opposax.wisdomModifierAndHalfLevel} | form : ${Opposax.insightTraining ? '[x]' : '[ ]'})`);
-console.log(`Intimidation: ${Opposax.intimidate} (mod carac + 1/2niv.: ${Opposax.charismaModifierAndHalfLevel} | form : ${Opposax.intimidateTraining ? '[x]' : '[ ]'})`);
-console.log(`Larcin: ${Opposax.thievery} (mod carac + 1/2niv.: ${Opposax.dexterityModifierAndHalfLevel} | form : ${Opposax.thieveryTraining ? '[x]' : '[ ]'})`);
-console.log(`Nature: ${Opposax.nature} (mod carac + 1/2niv.: ${Opposax.wisdomModifierAndHalfLevel} | form : ${Opposax.natureTraining ? '[x]' : '[ ]'})`);
-console.log(`Perception: ${Opposax.perception} (mod carac + 1/2niv.: ${Opposax.wisdomModifierAndHalfLevel} | form : ${Opposax.perceptionTraining ? '[x]' : '[ ]'})`);
-console.log(`Religion: ${Opposax.religion} (mod carac + 1/2niv.: ${Opposax.inteligenceModifierAndHalfLevel} | form : ${Opposax.religionTraining ? '[x]' : '[ ]'})`);
-console.log(`Soins: ${Opposax.heal} (mod carac + 1/2niv.: ${Opposax.wisdomModifierAndHalfLevel} | form : ${Opposax.healTraining ? '[x]' : '[ ]'})`);
-console.log(`---HIT POINTS---`);
-console.log(`PV MAX: ${Opposax.maxHeathPoints}`);
-console.log(`PÉRIL: ${Opposax.bloodied}`);
-console.log(`VALEUR DE RÉCUP: ${Opposax.srugeValue}`);
-console.log(`RÉCUP/JOUR: ${Opposax.surgePerDay}`);
+console.log(`Acrobaties: ${Player.acrobatics} (mod carac + 1/2niv.: ${Player.dexterityModifierAndHalfLevel} | form : ${Player.acrobaticsTraining ? '[x]' : '[ ]'})`);
+console.log(`Arcanes: ${Player.arcana} (mod carac + 1/2niv.: ${Player.inteligenceModifierAndHalfLevel} | form : ${Player.arcanaTraining ? '[x]' : '[ ]'})`);
+console.log(`Athlétisme: ${Player.athletics} (mod carac + 1/2niv.: ${Player.strengthModifierAndHalfLevel} | form : ${Player.athleticsTraining ? '[x]' : '[ ]'})`);
+console.log(`Bluff: ${Player.bluff} (mod carac + 1/2niv.: ${Player.charismaModifierAndHalfLevel} | form : ${Player.bluffTraining ? '[x]' : '[ ]'})`);
+console.log(`Connais. de la rue: ${Player.streetwise} (mod carac + 1/2niv.: ${Player.charismaModifierAndHalfLevel} | form : ${Player.streetwiseTraining ? '[x]' : '[ ]'})`);
+console.log(`Diplomatie: ${Player.diplomacy} (mod carac + 1/2niv.: ${Player.charismaModifierAndHalfLevel} | form : ${Player.diplomacyTraining ? '[x]' : '[ ]'})`);
+console.log(`Discretion: ${Player.stealth} (mod carac + 1/2niv.: ${Player.dexterityModifierAndHalfLevel} | form : ${Player.stealthTraining ? '[x]' : '[ ]'})`);
+console.log(`Endurance: ${Player.endurance} (mod carac + 1/2niv.: ${Player.constitutionModifierAndHalfLevel} | form : ${Player.enduranceTraining ? '[x]' : '[ ]'})`);
+console.log(`Exploration: ${Player.dungeoneering} (mod carac + 1/2niv.: ${Player.wisdomModifierAndHalfLevel} | form : ${Player.dungeoneeringTraining ? '[x]' : '[ ]'})`);
+console.log(`Histoire: ${Player.history} (mod carac + 1/2niv.: ${Player.inteligenceModifierAndHalfLevel} | form : ${Player.historyTraining ? '[x]' : '[ ]'})`);
+console.log(`Intuition: ${Player.insight} (mod carac + 1/2niv.: ${Player.wisdomModifierAndHalfLevel} | form : ${Player.insightTraining ? '[x]' : '[ ]'})`);
+console.log(`Intimidation: ${Player.intimidate} (mod carac + 1/2niv.: ${Player.charismaModifierAndHalfLevel} | form : ${Player.intimidateTraining ? '[x]' : '[ ]'})`);
+console.log(`Larcin: ${Player.thievery} (mod carac + 1/2niv.: ${Player.dexterityModifierAndHalfLevel} | form : ${Player.thieveryTraining ? '[x]' : '[ ]'})`);
+console.log(`Nature: ${Player.nature} (mod carac + 1/2niv.: ${Player.wisdomModifierAndHalfLevel} | form : ${Player.natureTraining ? '[x]' : '[ ]'})`);
+console.log(`Perception: ${Player.perception} (mod carac + 1/2niv.: ${Player.wisdomModifierAndHalfLevel} | form : ${Player.perceptionTraining ? '[x]' : '[ ]'})`);
+console.log(`Religion: ${Player.religion} (mod carac + 1/2niv.: ${Player.inteligenceModifierAndHalfLevel} | form : ${Player.religionTraining ? '[x]' : '[ ]'})`);
+console.log(`Soins: ${Player.heal} (mod carac + 1/2niv.: ${Player.wisdomModifierAndHalfLevel} | form : ${Player.healTraining ? '[x]' : '[ ]'})`);
+console.log(`---POINTS DE VIE---`);
+console.log(`PV MAX: ${Player.maxHeathPoints}`);
+console.log(`PÉRIL: ${Player.bloodied}`);
+console.log(`VALEUR DE RÉCUP: ${Player.srugeValue}`);
+console.log(`RÉCUP/JOUR: ${Player.surgePerDay}`);
+console.log(`---POINT D'ACTION---`);
+console.log(`Points d'action: ${Player.actionPoints}`);
+console.log(`--DÉPLACEMENT--`);
+console.log(`VD: ${Player.speed}`);
+console.log(`--SENS--`);
+console.log(`Intuition passive: ${Player.passiveInsight} (10 + ${Player.insight})`);
+console.log(`Perception passive: ${Player.passivePerception} (10 + ${Player.perception})`);
