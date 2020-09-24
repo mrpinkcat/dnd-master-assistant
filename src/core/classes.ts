@@ -116,4 +116,33 @@ const shaman: Class = {
   authorizedArmorType: ['fabric', 'leather'],
 };
 
-export default { guerrier, magicien, shaman };
+const paladin: Class = {
+  name: 'Paladin',
+  defenceBonus: [
+    {
+      defenceName: 'FORT',
+      bonus: 1,
+    },
+    {
+      defenceName: 'REF',
+      bonus: 1,
+    },
+    {
+      defenceName: 'WILL',
+      bonus: 1,
+    },
+  ],
+  healthPoints: {
+    base: 15,
+    abilityName: 'CON',
+  },
+  healthGainPerLevel: 6,
+  surgePerDay: {
+    base: 10,
+    abilityModifierName: 'CON',
+  },
+  authorizedWeaponType: ['simple melee weapon', 'simple distance weapon', 'war melee weapon'],
+  authorizedArmorType: ['fabric', 'leather', 'skin', 'meshes', 'scales'], // TODO rajouter les boucliers
+}
+
+export default { guerrier, magicien, shaman, paladin };
