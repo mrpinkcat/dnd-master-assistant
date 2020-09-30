@@ -34,7 +34,7 @@ const Player = new Creature({
   charisma: 18,
   skillsTraining: {
     diplomacy: true,
-    stealth: true,
+    endurance: true,
     intimidate: true,
     religion: true,
   }, 
@@ -42,6 +42,21 @@ const Player = new Creature({
   alignment: "Non aligné",
   class: classes.paladin,
   race: races.drakeide,
+  misc: {
+    defences: {
+      armorClass: 4,
+      fortitude: 3,
+      refelex: 3,
+      will: 3,
+    },
+    skills: {
+      acrobatics: 5,
+      athletics: 5,
+      bluff: 1,
+      diplomacy: 1,
+      perception: 1,
+    }
+  }
 });
 
 console.log(`Nom: ${Player.name}`);

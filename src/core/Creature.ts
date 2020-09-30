@@ -58,6 +58,10 @@ interface CreatureCreationInfo {
    * **Race**
    */
   race: Race;
+  /**
+   * **Alté**
+   */
+  misc?: Misc;
 }
 
 interface SkillsTrainingList {
@@ -87,6 +91,49 @@ interface SkillsTrainingList {
    */
   streetwise?: boolean;
   thievery?: boolean;
+}
+
+interface Misc {
+  initative?: number;
+  defences?: {
+    armorClass?: number;
+    fortitude?: number;
+    refelex?: number;
+    will?: number;
+  };
+  skills?: {
+    acrobatics?: number;
+    arcana?: number;
+    athletics?: number;
+    bluff?: number;
+    diplomacy?: number;
+    /**
+     * Exploration
+     */
+    dungeoneering?: number;
+    endurance?: number;
+    heal?: number;
+    history?: number;
+    /**
+     * intution
+     */
+    insight?: number;
+    intimidate?: number;
+    nature?: number;
+    perception?: number;
+    religion?: number;
+    stealth?: number;
+    /**
+     * Connaissance de la rue
+     */
+    streetwise?: number;
+    thievery?: number;
+  };
+  senses?: {
+    passiveInsight?: number;
+    passivePerception?: number;
+  }
+  speed?: number;
 }
 
 export default class Creature {
@@ -174,6 +221,7 @@ export default class Creature {
   private _alignment: "Bon" | "Loyal bon" | "Mauvais" | "Chaotique mauvais" | "Non aligné";
   private _class: Class;
   private _race: Race;
+  private _misc?: Misc;
 
   constructor(creationInfo: CreatureCreationInfo) {
     this._id = 1;
@@ -192,6 +240,8 @@ export default class Creature {
     this.className = this._class.name;
     this._race = creationInfo.race;
     this.raceName = this._race.name;
+    if (creationInfo.misc)
+      this._misc = creationInfo.misc;
   }
 
   // GETTERS
@@ -380,7 +430,13 @@ export default class Creature {
     if (acrobaticsBonus) {
       bonus = bonus + acrobaticsBonus.bonus;
     }
-    return this.dexterityModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.acrobatics;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.dexterityModifierAndHalfLevel + bonus + misc;
   }
 
   get acrobaticsTraining():boolean {
@@ -402,7 +458,13 @@ export default class Creature {
     if (arcanaBonus) {
       bonus = bonus + arcanaBonus.bonus;
     }
-    return this.inteligenceModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.arcana;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.inteligenceModifierAndHalfLevel + bonus + misc;
   }
 
   get arcanaTraining():boolean {
@@ -424,7 +486,13 @@ export default class Creature {
     if (athleticsBonus) {
       bonus = bonus + athleticsBonus.bonus;
     }
-    return this.strengthModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.athletics;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.strengthModifierAndHalfLevel + bonus + misc;
   }
 
   get athleticsTraining():boolean {
@@ -446,7 +514,13 @@ export default class Creature {
     if (bluffBonus) {
       bonus = bonus + bluffBonus.bonus;
     }
-    return this.charismaModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.bluff;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.charismaModifierAndHalfLevel + bonus + misc;
   }
 
   get bluffTraining():boolean {
@@ -468,7 +542,13 @@ export default class Creature {
     if (diplomacyBonus) {
       bonus = bonus + diplomacyBonus.bonus;
     }
-    return this.charismaModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.diplomacy;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.charismaModifierAndHalfLevel + bonus + misc;
   }
 
   get diplomacyTraining():boolean {
@@ -493,7 +573,13 @@ export default class Creature {
     if (dungeoneeringBonus) {
       bonus = bonus + dungeoneeringBonus.bonus;
     }
-    return this.wisdomModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.dungeoneering;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus + misc;
   }
 
   get dungeoneeringTraining():boolean {
@@ -515,7 +601,13 @@ export default class Creature {
     if (enduranceBonus) {
       bonus = bonus + enduranceBonus.bonus;
     }
-    return this.constitutionModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.endurance;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.constitutionModifierAndHalfLevel + bonus + misc;
   }
 
   get enduranceTraining():boolean {
@@ -537,7 +629,13 @@ export default class Creature {
     if (healBonus) {
       bonus = bonus + healBonus.bonus;
     }
-    return this.wisdomModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.insight;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus + misc;
   }
 
   get healTraining():boolean {
@@ -559,7 +657,13 @@ export default class Creature {
     if (historyBonus) {
       bonus = bonus + historyBonus.bonus;
     }
-    return this.inteligenceModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.history;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.inteligenceModifierAndHalfLevel + bonus + misc;
   }
 
   get historyTraining():boolean {
@@ -581,7 +685,13 @@ export default class Creature {
     if (insightBonus) {
       bonus = bonus + insightBonus.bonus;
     }
-    return this.wisdomModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.insight;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus + misc;
   }
 
   get insightTraining():boolean {
@@ -603,7 +713,13 @@ export default class Creature {
     if (intimidateBonus) {
       bonus = bonus + intimidateBonus.bonus;
     }
-    return this.charismaModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.intimidate;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.charismaModifierAndHalfLevel + bonus + misc;
   }
 
   get intimidateTraining():boolean {
@@ -625,7 +741,13 @@ export default class Creature {
     if (natureBonus) {
       bonus = bonus + natureBonus.bonus;
     }
-    return this.wisdomModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.perception;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus + misc;
   }
 
   get natureTraining():boolean {
@@ -647,7 +769,13 @@ export default class Creature {
     if (perceptionBonus) {
       bonus = bonus + perceptionBonus.bonus;
     }
-    return this.wisdomModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.perception;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.wisdomModifierAndHalfLevel + bonus + misc;
   }
 
   get perceptionTraining():boolean {
@@ -669,7 +797,13 @@ export default class Creature {
     if (religionBonus) {
       bonus = bonus + religionBonus.bonus;
     }
-    return this.inteligenceModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.religion;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.inteligenceModifierAndHalfLevel + bonus + misc;
   }
 
   get religionTraining():boolean {
@@ -691,7 +825,13 @@ export default class Creature {
     if (stealthBonus) {
       bonus = bonus + stealthBonus.bonus;
     }
-    return this.dexterityModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.stealth;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.dexterityModifierAndHalfLevel + bonus + misc;
   }
 
   get stealthTraining():boolean {
@@ -713,7 +853,13 @@ export default class Creature {
     if (streetwiseBonus) {
       bonus = bonus + streetwiseBonus.bonus;
     }
-    return this.charismaModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.streetwise;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.charismaModifierAndHalfLevel + bonus + misc;
   }
 
   get streetwiseTraining():boolean {
@@ -735,7 +881,13 @@ export default class Creature {
     if (thieveryBonus) {
       bonus = bonus + thieveryBonus.bonus;
     }
-    return this.dexterityModifierAndHalfLevel + bonus;
+    // Bonus d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.skills?.thievery;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+    return this.dexterityModifierAndHalfLevel + bonus + misc;
   }
 
   get thieveryTraining():boolean {
@@ -766,10 +918,17 @@ export default class Creature {
    * Classe d'armure
    */
   get armorClass():number {
+    // Recherche d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.defences?.armorClass;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+
     if (this.dexterityModifier > this.inteligenceModifier) {
-      return 10 + Math.floor(this.level / 2) + this.dexterityModifier;
+      return 10 + Math.floor(this.level / 2) + this.dexterityModifier + misc;
     } else {
-      return 10 + Math.floor(this.level / 2) + this.inteligenceModifier;
+      return 10 + Math.floor(this.level / 2) + this.inteligenceModifier + misc;
     }
   }
 
@@ -784,10 +943,17 @@ export default class Creature {
       classBonus = fortitudeBonus.bonus;
     }
 
+    // Recherche d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.defences?.fortitude;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+
     if (this.strengthModifier > this.constitutionModifier) {
-      return 10 + Math.floor(this.level / 2) + this.strengthModifier + classBonus;
+      return 10 + Math.floor(this.level / 2) + this.strengthModifier + classBonus + misc;
     } else {
-      return 10 + Math.floor(this.level / 2) + this.constitutionModifier + classBonus;
+      return 10 + Math.floor(this.level / 2) + this.constitutionModifier + classBonus + misc;
     }
   }
 
@@ -802,10 +968,17 @@ export default class Creature {
       classBonus = reflexBonus.bonus;
     }
 
+    // Recherche d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.defences?.refelex;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+
     if (this.dexterityModifier > this.inteligenceModifier) {
-      return 10 + Math.floor(this.level / 2) + this.dexterityModifier + classBonus;
+      return 10 + Math.floor(this.level / 2) + this.dexterityModifier + classBonus + misc;
     } else {
-      return 10 + Math.floor(this.level / 2) + this.inteligenceModifier + classBonus;
+      return 10 + Math.floor(this.level / 2) + this.inteligenceModifier + classBonus + misc;
     }
   }
 
@@ -820,10 +993,17 @@ export default class Creature {
       classBonus = willBonus.bonus;
     }
 
+    // Recherche d'alté
+    let misc = 0;
+    const miscBonus = this._misc?.defences?.will;
+    if (miscBonus) {
+      misc = misc + miscBonus;
+    }
+
     if (this.wisdomModifier > this.charismaModifier) {
-      return 10 + Math.floor(this.level / 2) + this.wisdomModifier + classBonus;
+      return 10 + Math.floor(this.level / 2) + this.wisdomModifier + classBonus + misc;
     } else {
-      return 10 + Math.floor(this.level / 2) + this.charismaModifier + classBonus;
+      return 10 + Math.floor(this.level / 2) + this.charismaModifier + classBonus + misc;
     }
   }
 
@@ -886,7 +1066,13 @@ export default class Creature {
    * Vitesse de déplacement
    */
   get speed():number {
-    return this._race.movementSpeed;
+    let bonus = 0;
+    const miscBonus = this._misc?.speed;
+    if (miscBonus) {
+      bonus = bonus + miscBonus;
+    }
+
+    return this._race.movementSpeed + bonus;
   }
 
   // SENSES
